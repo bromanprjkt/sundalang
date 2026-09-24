@@ -76,7 +76,7 @@ Write-Status "INFO" "Nyari versi terbaru..." Yellow
 Write-Host ""
 
 try {
-    $ReleaseInfo = Invoke-RestMethod -Uri "https://api.github.com/repos/broman0x/sundalang/releases/latest"
+    $ReleaseInfo = Invoke-RestMethod -Uri "https://api.github.com/repos/bromanprjkt/sundalang/releases/latest"
     $Version = $ReleaseInfo.tag_name
     
     $Asset = $ReleaseInfo.assets | Where-Object { $_.name -eq "sundalang.exe" }
@@ -153,5 +153,5 @@ Write-Host ""
 Write-Center "Lokasi: $BinaryPath" DarkGray
 Write-Host ""
 Write-Center "Uninstall:" DarkGray
-Write-Center "irm https://raw.githubusercontent.com/broman0x/sundalang/main/uninstall.ps1 | iex" DarkGray
+Write-Center "irm https://raw.githubusercontent.com/bromanprjkt/sundalang/main/uninstall.ps1 | iex" DarkGray
 Write-Host ""

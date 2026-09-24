@@ -144,7 +144,7 @@ echo ""
 status_msg "INFO" "Nyari versi terbaru..." "$YELLOW"
 echo ""
 
-RELEASE_INFO=$(curl -fsSL https://api.github.com/repos/broman0x/sundalang/releases/latest)
+RELEASE_INFO=$(curl -fsSL https://api.github.com/repos/bromanprjkt/sundalang/releases/latest)
 VERSION=$(echo "$RELEASE_INFO" | grep '"tag_name"' | cut -d '"' -f 4)
 
 if [ -z "$VERSION" ]; then
@@ -223,5 +223,5 @@ echo ""
 center_text "Lokasi: $BINARY_PATH" "$GRAY"
 echo ""
 center_text "Uninstall:" "$GRAY"
-center_text "curl -fsSL https://raw.githubusercontent.com/broman0x/sundalang/main/uninstall.sh | bash" "$GRAY"
+center_text "curl -fsSL https://raw.githubusercontent.com/bromanprjkt/sundalang/main/uninstall.sh | bash" "$GRAY"
 echo ""

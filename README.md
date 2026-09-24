@@ -12,14 +12,14 @@
   <a href="https://sundalang.emandev.xyz">
     <img src="https://img.shields.io/badge/web-official-blue" alt="web" />
   </a>
-  <a href="https://raw.githubusercontent.com/broman0x/sundalang/refs/heads/main/LICENSE">
+  <a href="https://raw.githubusercontent.com/bromanprjkt/sundalang/refs/heads/main/LICENSE">
     <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT" />
   </a>
-  <a href="https://github.com/broman0x/sundalang">
-    <img src="https://img.shields.io/github/stars/broman0x/sundalang?style=social" alt="GitHub stars" />
+  <a href="https://github.com/bromanprjkt/sundalang">
+    <img src="https://img.shields.io/github/stars/bromanprjkt/sundalang?style=social" alt="GitHub stars" />
   </a>
-  <a href="https://github.com/broman0x/sundalang/releases">
-    <img src="https://img.shields.io/github/v/release/broman0x/sundalang?label=release" alt="Latest Release" />
+  <a href="https://github.com/bromanprjkt/sundalang/releases">
+    <img src="https://img.shields.io/github/v/release/bromanprjkt/sundalang?label=release" alt="Latest Release" />
   </a>
 </p>
 
@@ -94,12 +94,12 @@ Download dan jalankan installer otomatis dengan one-liner:
 
 **Windows (PowerShell):**
 ```powershell
-irm https://raw.githubusercontent.com/broman0x/sundalang/main/install.ps1 | iex
+irm https://raw.githubusercontent.com/bromanprjkt/sundalang/main/install.ps1 | iex
 ```
 
 **Linux/macOS:**
 ```bash
-curl -fsSL https://raw.githubusercontent.com/broman0x/sundalang/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/bromanprjkt/sundalang/main/install.sh | bash
 ```
 
 Script akan otomatis:
@@ -109,7 +109,7 @@ Script akan otomatis:
 
 ### 🎯 Manual Install via Binary
 
-1. Download binary `sundalang.exe` (Windows) ataw `sundalang` (Linux/macOS) dari [GitHub Releases](https://github.com/broman0x/sundalang/releases).
+1. Download binary `sundalang.exe` (Windows) ataw `sundalang` (Linux/macOS) dari [GitHub Releases](https://github.com/bromanprjkt/sundalang/releases).
 2. Jalankan installer built-in:
    ```bash
    ./sundalang install

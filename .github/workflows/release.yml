@@ -87,12 +87,12 @@ jobs:
             
             **Windows (PowerShell):**
             ```powershell
-            irm https://raw.githubusercontent.com/broman0x/sundalang/main/install.ps1 | iex
+            irm https://raw.githubusercontent.com/bromanprjkt/sundalang/main/install.ps1 | iex
             ```
             
             **Linux/macOS:**
             ```bash
-            curl -fsSL https://raw.githubusercontent.com/broman0x/sundalang/main/install.sh | bash
+            curl -fsSL https://raw.githubusercontent.com/bromanprjkt/sundalang/main/install.sh | bash
             ```
             
             Installer akan otomatis:
@@ -110,12 +110,12 @@ jobs:
             
             **Windows:**
             ```powershell
-            irm https://raw.githubusercontent.com/broman0x/sundalang/main/uninstall.ps1 | iex
+            irm https://raw.githubusercontent.com/bromanprjkt/sundalang/main/uninstall.ps1 | iex
             ```
             
             **Linux/macOS:**
             ```bash
-            curl -fsSL https://raw.githubusercontent.com/broman0x/sundalang/main/uninstall.sh | bash
+            curl -fsSL https://raw.githubusercontent.com/bromanprjkt/sundalang/main/uninstall.sh | bash
             ```
             
             ---
