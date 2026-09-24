@@ -148,11 +148,17 @@ func (p *Parser) parseIfStatement() *IfExpression {
 	}
 	expression.Consequence = p.parseBlockStatement()
 
-	if p.peekToken.Type == TOKEN_LAMUNTEU {
+	if p.peekToken.Type == TOKEN_LAMUNTEU || p.peekToken.Type == TOKEN_SANYA {
 		p.nextToken()
 
 		if p.peekToken.Type == TOKEN_LAMUN {
 			p.nextToken()
+			elseIf := p.parseIfStatement()
+			expression.Alternative = &BlockStatement{
+				Token:      p.curToken,
+				Statements: []Statement{elseIf},
+			}
+		} else if p.peekToken.Type != TOKEN_LBRACE {
 			elseIf := p.parseIfStatement()
 			expression.Alternative = &BlockStatement{
 				Token:      p.curToken,

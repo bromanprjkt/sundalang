@@ -1,0 +1,7 @@
+# Root binaries
+/sundalang
+/sundalang.exe
+*.exe
+
+# Test output
+*.tmp

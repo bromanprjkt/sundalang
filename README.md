@@ -75,16 +75,29 @@ Berikut adalah daftar padanan kata kunci dalam SundaLang:
 - `mimiti(array)`: Mengambil elemen pertama array.
 - `tungtung(array)`: Mengambil elemen terakhir array.
 - `asupkeun(array, item)`: Menambahkan item ke array.
+- `miceun(array, index)`: Menghapus item array berdasarkan index.
+- `beulah(str, pamisah)`: Memecah string menjadi array (split).
+- `gabung(array, pamisah)`: Menggabungkan elemen array menjadi string (join).
+- `ganti(str, heubeul, anyar)`: Mengganti teks dalam string (replace all).
+- `ngandung(udagan, nu_diteangan)`: Cek apakah string/array mengandung nilai tertentu (true/false).
+- `malik(str/array)`: Membalik urutan karakter string atau elemen array (reverse).
 - `garede(str)`: Uppercase string.
 - `laleutik(str)`: Lowercase string.
+- `mutlak(angka)`: Nilai absolut (abs).
+- `pangkat(dasar, eksponen)`: Pemangkatan angka.
+- `panggedena(a, b, ...)`: Mencari nilai angka terbesar (max).
+- `pangleutikna(a, b, ...)`: Mencari nilai angka terkecil (min).
 - `kana_angka(str)`: Convert ke integer.
 - `kana_tulisan(obj)`: Convert ke string.
 - `tipe(obj)`: Cek tipe data.
+- `argumen()`: Mengambil daftar argumen CLI dalam bentuk array.
+- `lingkungan(ngaran)`: Membaca environment variable sistem.
 - `waktu()`: Cek waktu sekarang (jam:menit:detik).
 - `acak(max)`: Generate angka acak 0 s.d max.
-- `sare(ms)` / `reureuh(ms)`: Pause eksekusi (sleep).
+- `sare(ms)` / `reureuh(ms)`: Pause eksekusi (sleep dalam milidetik).
 - `maca(path)`: Baca isi file.
 - `nyerat(path, content)`: Tulis ke file.
+- `kaluar([kode])`: Keluar dari program (exit).
 
 ## 📦 Cara Install
 
@@ -120,6 +133,18 @@ Script akan otomatis:
 **Jalankan file .sl:**
 ```bash
 sundalang 01_dasar.sl
+# atau
+sundalang run 01_dasar.sl arg1 arg2
+```
+
+**Eksekusi langsung satu baris (Inline Eval):**
+```bash
+sundalang -e 'cetakkeun("Sampurasun SundaLang!")'
+```
+
+**Buka REPL (Mode Interaktif):**
+```bash
+sundalang repl
 ```
 
 **Interactive Launcher:**

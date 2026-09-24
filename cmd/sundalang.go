@@ -9,14 +9,7 @@ import (
 	"sundalang/pkg/sundalang"
 )
 
-func runFile(filename string) {
-	content, err := os.ReadFile(filename)
-	if err != nil {
-		fmt.Printf("Gagal maca file: %s\n", err)
-		return
-	}
-
-	code := string(content)
+func runCode(code string) {
 	l := sundalang.NewLexer(code)
 	p := sundalang.NewParser(l)
 	program := p.ParseProgram()
@@ -38,16 +31,28 @@ func runFile(filename string) {
 	}
 }
 
+func runFile(filename string) {
+	content, err := os.ReadFile(filename)
+	if err != nil {
+		fmt.Printf("Gagal maca file: %s\n", err)
+		return
+	}
+	runCode(string(content))
+}
+
 func showHelp() {
 	fmt.Println("SundaLang - Bahasa Pemrograman Sunda Pandeglang")
 	fmt.Println()
 	fmt.Println("Cara make:")
-	fmt.Println("  sundalang <file.sl>      Jalankeun file SundaLang")
-	fmt.Println("  sundalang                Launcher")
-	fmt.Println("  sundalang --version      Tempo versi SundaLang")
-	fmt.Println("  sundalang install        Install SundaLang ka sistem")
-	fmt.Println("  sundalang uninstall      Uninstall SundaLang tina sistem")
-	fmt.Println("  sundalang --help         Tempo pitulung ieu")
+	fmt.Println("  sundalang <file.sl> [arg...]  Jalankeun file SundaLang")
+	fmt.Println("  sundalang run <file.sl>       Jalankeun file SundaLang")
+	fmt.Println("  sundalang repl                Buka mode interaktif (REPL)")
+	fmt.Println("  sundalang -e '<code>'         Jalankeun kode saharita (inline eval)")
+	fmt.Println("  sundalang                     Buka Launcher / Menu Utama")
+	fmt.Println("  sundalang --version           Tempo versi SundaLang")
+	fmt.Println("  sundalang install             Install SundaLang ka sistem")
+	fmt.Println("  sundalang uninstall           Uninstall SundaLang tina sistem")
+	fmt.Println("  sundalang --help              Tempo pitulung ieu")
 	fmt.Println()
 }
 
@@ -301,9 +306,8 @@ func main() {
 
 		switch arg {
 		case "-v", "--version":
-			fmt.Println("SundaLang v1.0.4")
+			fmt.Println("SundaLang v1.0.5")
 			fmt.Println("Bahasa Pemrograman Sunda Pandeglang")
-
 			return
 		case "--help", "-h", "help":
 			showHelp()
@@ -314,7 +318,51 @@ func main() {
 		case "uninstall":
 			uninstall()
 			return
+		case "repl":
+			sundalang.StartREPL(os.Stdin, os.Stdout)
+			return
+		case "-e", "--eval":
+			if len(os.Args) < 3 {
+				fmt.Println("Kudu aya kode nu dievaluasi. Conto: sundalang -e 'cetakkeun(\"Halo\")'")
+				return
+			}
+			evalArgs := os.Args[2:]
+			dashDashIdx := -1
+			for i, a := range evalArgs {
+				if a == "--" {
+					dashDashIdx = i
+					break
+				}
+			}
+
+			var code string
+			if dashDashIdx != -1 {
+				code = strings.Join(evalArgs[:dashDashIdx], " ")
+				sundalang.SetArgs(evalArgs[dashDashIdx+1:])
+			} else {
+				code = strings.Join(evalArgs, " ")
+				sundalang.SetArgs([]string{})
+			}
+			runCode(code)
+			return
+		case "run":
+			if len(os.Args) < 3 {
+				fmt.Println("Kudu aya ngaran file .sl nu rek dijalankeun. Conto: sundalang run contoh.sl")
+				return
+			}
+			if len(os.Args) > 3 {
+				sundalang.SetArgs(os.Args[3:])
+			} else {
+				sundalang.SetArgs([]string{})
+			}
+			runFile(os.Args[2])
+			return
 		default:
+			if len(os.Args) > 2 {
+				sundalang.SetArgs(os.Args[2:])
+			} else {
+				sundalang.SetArgs([]string{})
+			}
 			runFile(arg)
 			return
 		}

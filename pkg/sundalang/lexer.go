@@ -40,6 +40,12 @@ func (l *Lexer) NextToken() Token {
 			}
 			continue
 		}
+		if l.ch == '/' && l.peekChar() == '/' {
+			for l.ch != '\n' && l.ch != 0 {
+				l.readChar()
+			}
+			continue
+		}
 		break
 	}
 

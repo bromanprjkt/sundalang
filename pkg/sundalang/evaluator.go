@@ -339,6 +339,268 @@ var builtins = map[string]*Builtin{
 			return TRUE
 		},
 	},
+
+	"beulah": {
+		Fn: func(args ...Object) Object {
+			if len(args) != 2 {
+				return &Error{Message: "beulah() butuh 2 argumen (tulisan, pamisah)"}
+			}
+			str, ok1 := args[0].(*String)
+			sep, ok2 := args[1].(*String)
+			if !ok1 || !ok2 {
+				return &Error{Message: "argumen beulah() kudu STRING"}
+			}
+			parts := strings.Split(str.Value, sep.Value)
+			elements := make([]Object, len(parts))
+			for i, p := range parts {
+				elements[i] = &String{Value: p}
+			}
+			return &Array{Elements: elements}
+		},
+	},
+	"gabung": {
+		Fn: func(args ...Object) Object {
+			if len(args) != 2 {
+				return &Error{Message: "gabung() butuh 2 argumen (array, pamisah)"}
+			}
+			arr, ok1 := args[0].(*Array)
+			sep, ok2 := args[1].(*String)
+			if !ok1 || !ok2 {
+				return &Error{Message: "argumen kahiji kudu ARRAY jeung kadua kudu STRING dina gabung()"}
+			}
+			parts := make([]string, len(arr.Elements))
+			for i, el := range arr.Elements {
+				parts[i] = el.Inspect()
+			}
+			return &String{Value: strings.Join(parts, sep.Value)}
+		},
+	},
+	"ganti": {
+		Fn: func(args ...Object) Object {
+			if len(args) != 3 {
+				return &Error{Message: "ganti() butuh 3 argumen (tulisan, heubeul, anyar)"}
+			}
+			str, ok1 := args[0].(*String)
+			oldVal, ok2 := args[1].(*String)
+			newVal, ok3 := args[2].(*String)
+			if !ok1 || !ok2 || !ok3 {
+				return &Error{Message: "kabéh argumen dina ganti() kudu STRING"}
+			}
+			return &String{Value: strings.ReplaceAll(str.Value, oldVal.Value, newVal.Value)}
+		},
+	},
+	"ngandung": {
+		Fn: func(args ...Object) Object {
+			if len(args) != 2 {
+				return &Error{Message: "ngandung() butuh 2 argumen (udagan, nu_diteangan)"}
+			}
+			switch target := args[0].(type) {
+			case *String:
+				sub, ok := args[1].(*String)
+				if !ok {
+					return &Error{Message: "argumen kadua ngandung() kudu STRING lamun udaganna STRING"}
+				}
+				if strings.Contains(target.Value, sub.Value) {
+					return TRUE
+				}
+				return FALSE
+			case *Array:
+				for _, el := range target.Elements {
+					if el.Type() == args[1].Type() {
+						switch e := el.(type) {
+						case *Integer:
+							if e.Value == args[1].(*Integer).Value {
+								return TRUE
+							}
+						case *String:
+							if e.Value == args[1].(*String).Value {
+								return TRUE
+							}
+						case *BooleanObject:
+							if e.Value == args[1].(*BooleanObject).Value {
+								return TRUE
+							}
+						default:
+							if e.Inspect() == args[1].Inspect() {
+								return TRUE
+							}
+						}
+					}
+				}
+				return FALSE
+			default:
+				return &Error{Message: "argumen kahiji ngandung() kudu STRING atawa ARRAY"}
+			}
+		},
+	},
+	"miceun": {
+		Fn: func(args ...Object) Object {
+			if len(args) != 2 {
+				return &Error{Message: "miceun() butuh 2 argumen (array, indeks)"}
+			}
+			arr, ok := args[0].(*Array)
+			if !ok {
+				return &Error{Message: "argumen kahiji miceun() kudu ARRAY"}
+			}
+			idx, ok := args[1].(*Integer)
+			if !ok {
+				return &Error{Message: "argumen kadua miceun() kudu INTEGER"}
+			}
+			i := int(idx.Value)
+			if i < 0 || i >= len(arr.Elements) {
+				return &Error{Message: fmt.Sprintf("indeks di luar jangkauan: %d (panjang: %d)", i, len(arr.Elements))}
+			}
+			newElements := make([]Object, 0, len(arr.Elements)-1)
+			newElements = append(newElements, arr.Elements[:i]...)
+			newElements = append(newElements, arr.Elements[i+1:]...)
+			return &Array{Elements: newElements}
+		},
+	},
+	"malik": {
+		Fn: func(args ...Object) Object {
+			if len(args) != 1 {
+				return &Error{Message: "malik() butuh 1 argumen (tulisan atawa array)"}
+			}
+			switch target := args[0].(type) {
+			case *String:
+				runes := []rune(target.Value)
+				for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
+					runes[i], runes[j] = runes[j], runes[i]
+				}
+				return &String{Value: string(runes)}
+			case *Array:
+				n := len(target.Elements)
+				newElements := make([]Object, n)
+				for i, el := range target.Elements {
+					newElements[n-1-i] = el
+				}
+				return &Array{Elements: newElements}
+			default:
+				return &Error{Message: "argumen malik() kudu STRING atawa ARRAY"}
+			}
+		},
+	},
+	"mutlak": {
+		Fn: func(args ...Object) Object {
+			if len(args) != 1 {
+				return &Error{Message: "mutlak() butuh 1 argumen"}
+			}
+			intObj, ok := args[0].(*Integer)
+			if !ok {
+				return &Error{Message: "argumen mutlak() kudu INTEGER"}
+			}
+			val := intObj.Value
+			if val < 0 {
+				val = -val
+			}
+			return &Integer{Value: val}
+		},
+	},
+	"pangkat": {
+		Fn: func(args ...Object) Object {
+			if len(args) != 2 {
+				return &Error{Message: "pangkat() butuh 2 argumen (angka, pangkat)"}
+			}
+			base, ok1 := args[0].(*Integer)
+			exp, ok2 := args[1].(*Integer)
+			if !ok1 || !ok2 {
+				return &Error{Message: "argumen pangkat() kudu INTEGER"}
+			}
+			if exp.Value < 0 {
+				return &Error{Message: "pangkat negatif teu didukung pikeun integer"}
+			}
+			res := int64(1)
+			b := base.Value
+			e := exp.Value
+			for e > 0 {
+				if e%2 == 1 {
+					res *= b
+				}
+				b *= b
+				e /= 2
+			}
+			return &Integer{Value: res}
+		},
+	},
+	"panggedena": {
+		Fn: func(args ...Object) Object {
+			if len(args) < 2 {
+				return &Error{Message: "panggedena() butuh minimal 2 argumen"}
+			}
+			var maxVal int64
+			for i, a := range args {
+				intObj, ok := a.(*Integer)
+				if !ok {
+					return &Error{Message: "kabéh argumen panggedena() kudu INTEGER"}
+				}
+				if i == 0 || intObj.Value > maxVal {
+					maxVal = intObj.Value
+				}
+			}
+			return &Integer{Value: maxVal}
+		},
+	},
+	"pangleutikna": {
+		Fn: func(args ...Object) Object {
+			if len(args) < 2 {
+				return &Error{Message: "pangleutikna() butuh minimal 2 argumen"}
+			}
+			var minVal int64
+			for i, a := range args {
+				intObj, ok := a.(*Integer)
+				if !ok {
+					return &Error{Message: "kabéh argumen pangleutikna() kudu INTEGER"}
+				}
+				if i == 0 || intObj.Value < minVal {
+					minVal = intObj.Value
+				}
+			}
+			return &Integer{Value: minVal}
+		},
+	},
+	"argumen": {
+		Fn: func(args ...Object) Object {
+			elements := make([]Object, len(scriptArgs))
+			for i, a := range scriptArgs {
+				elements[i] = &String{Value: a}
+			}
+			return &Array{Elements: elements}
+		},
+	},
+	"lingkungan": {
+		Fn: func(args ...Object) Object {
+			if len(args) != 1 {
+				return &Error{Message: "lingkungan() butuh 1 argumen (ngaran variabel)"}
+			}
+			key, ok := args[0].(*String)
+			if !ok {
+				return &Error{Message: "argumen lingkungan() kudu STRING"}
+			}
+			return &String{Value: os.Getenv(key.Value)}
+		},
+	},
+	"kaluar": {
+		Fn: func(args ...Object) Object {
+			code := 0
+			if len(args) == 1 {
+				if intObj, ok := args[0].(*Integer); ok {
+					code = int(intObj.Value)
+				} else {
+					return &Error{Message: "argumen kaluar() kudu INTEGER"}
+				}
+			} else if len(args) > 1 {
+				return &Error{Message: "kaluar() maksimal nampa 1 argumen"}
+			}
+			os.Exit(code)
+			return NULL
+		},
+	},
+}
+
+var scriptArgs []string
+
+func SetArgs(args []string) {
+	scriptArgs = args
 }
 
 type Environment struct {
