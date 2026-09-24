@@ -97,19 +97,19 @@ Download dan jalankan installer otomatis dengan one-liner:
 irm https://raw.githubusercontent.com/bromanprjkt/sundalang/main/install.ps1 | iex
 ```
 
-**Linux/macOS:**
+**Linux / macOS / Android (Termux):**
 ```bash
 curl -fsSL https://raw.githubusercontent.com/bromanprjkt/sundalang/main/install.sh | bash
 ```
 
 Script akan otomatis:
-- Download binary terbaru (v1.0.4+)
+- Download binary terbaru sesuai OS & arsitektur (Windows, Linux x64/ARM64, macOS, Android Termux)
 - Install ke `~/.sundalang/bin/`
 - Tambahkan ke PATH
 
 ### 🎯 Manual Install via Binary
 
-1. Download binary `sundalang.exe` (Windows) ataw `sundalang` (Linux/macOS) dari [GitHub Releases](https://github.com/bromanprjkt/sundalang/releases).
+1. Download binary `sundalang.exe` (Windows), `sundalang` (Linux x64), `sundalang-linux-arm64` (Linux / Android Termux ARM64), ataw `sundalang-macos` (macOS) dari [GitHub Releases](https://github.com/bromanprjkt/sundalang/releases).
 2. Jalankan installer built-in:
    ```bash
    ./sundalang install

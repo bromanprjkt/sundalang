@@ -122,8 +122,12 @@ if [ "$OS" = "darwin" ]; then
     else
         BINARY_NAME="sundalang-macos"
     fi
-else
-    BINARY_NAME="sundalang"
+elif [ "$OS" = "linux" ]; then
+    if [ "$ARCH" = "arm64" ]; then
+        BINARY_NAME="sundalang-linux-arm64"
+    else
+        BINARY_NAME="sundalang"
+    fi
 fi
 
 center_text "Platform: $OS-$ARCH" "$YELLOW"
@@ -168,7 +172,9 @@ echo ""
 status_msg "INFO" "Ngeundeur SundaLang $VERSION..." "$YELLOW"
 echo ""
 
-TEMP_FILE="/tmp/sundalang-$$.tmp"
+TMP_DIR="${TMPDIR:-/tmp}"
+[ ! -d "$TMP_DIR" ] && TMP_DIR="$HOME"
+TEMP_FILE="$TMP_DIR/sundalang-$$.tmp"
 
 if ! curl -fsSL -o "$TEMP_FILE" "$DOWNLOAD_URL"; then
     status_msg "ERROR" "Gagal ngundeur binary" "$RED"

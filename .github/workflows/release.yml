@@ -18,6 +18,9 @@ jobs:
           - goos: linux
             goarch: amd64
             output: sundalang
+          - goos: linux
+            goarch: arm64
+            output: sundalang-linux-arm64
           - goos: darwin
             goarch: amd64
             output: sundalang-macos
@@ -36,6 +39,7 @@ jobs:
 
       - name: Build binary
         env:
+          CGO_ENABLED: 0
           GOOS: ${{ matrix.goos }}
           GOARCH: ${{ matrix.goarch }}
         run: |
@@ -72,6 +76,7 @@ jobs:
           files: |
             ./artifacts/windows-amd64/sundalang.exe
             ./artifacts/linux-amd64/sundalang
+            ./artifacts/linux-arm64/sundalang-linux-arm64
             ./artifacts/darwin-amd64/sundalang-macos
             ./artifacts/darwin-arm64/sundalang-macos-arm64
             install.ps1
@@ -90,14 +95,14 @@ jobs:
             irm https://raw.githubusercontent.com/bromanprjkt/sundalang/main/install.ps1 | iex
             ```
             
-            **Linux/macOS:**
+            **Linux / macOS / Android (Termux):**
             ```bash
             curl -fsSL https://raw.githubusercontent.com/bromanprjkt/sundalang/main/install.sh | bash
             ```
             
             Installer akan otomatis:
             - Download binary terbaru
-            - Install ke `~/.sundalang/bin/` (Linux/macOS) atau `%USERPROFILE%\.sundalang\bin\` (Windows)
+            - Install ke `~/.sundalang/bin/` (Linux/macOS/Termux) atau `%USERPROFILE%\.sundalang\bin\` (Windows)
             - Tambahkan ke PATH
             
             Setelah install, restart terminal dan jalankan:
@@ -124,6 +129,7 @@ jobs:
             Pilih binary sesuai dengan sistem operasi Anda:
             - **Windows (64-bit)**: `sundalang.exe`
             - **Linux (64-bit)**: `sundalang`
+            - **Linux / Android Termux (ARM64)**: `sundalang-linux-arm64`
             - **macOS Intel**: `sundalang-macos`
             - **macOS Apple Silicon (M1/M2)**: `sundalang-macos-arm64`
             

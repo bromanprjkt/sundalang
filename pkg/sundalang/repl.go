@@ -79,7 +79,7 @@ func printHelp(out io.Writer) {
   Kondisi  : lamun x > 5 { cetakkeun("Ageung") }
   Looping  : kedap x > 0 { tanda x = x - 1 }
 `
-	fmt.Fprintf(out, helpText)
+	fmt.Fprint(out, helpText)
 }
 
 func printParserErrors(out io.Writer, errors []string) {
